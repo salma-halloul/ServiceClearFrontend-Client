@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ClientProvider from "@/redux/provider";
+import { ToastContainer } from "react-toastify";
+import { Suspense } from "react";
+import Loading from "./loading";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,10 +22,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={outfit.className}>
+        <ClientProvider>
+          <Suspense fallback={<Loading/>}>
+            <Navbar />
+            {children}
+            <Footer />
+            <ToastContainer />
+          </Suspense>
+        </ClientProvider>
       </body>
     </html>
   );
