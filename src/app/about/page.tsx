@@ -1,9 +1,11 @@
+import DefaultLayout from "@/components/DefaultLayout";
 import QuoteProcess from "@/components/QuoteProcess";
 import Testimonials from "@/components/Testimonials";
 import WhyChooseUs from "@/components/WhyChooseUs";
 
 const AboutPage = () => {
   return (
+    <DefaultLayout>
     <div>
       <section>
         <div
@@ -68,6 +70,7 @@ const AboutPage = () => {
       </div>
 
     </div>
+    </DefaultLayout>
 
   );
 }

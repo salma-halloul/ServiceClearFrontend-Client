@@ -7,6 +7,8 @@ import React, { useState } from "react";
 import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
+import DefaultLayout from "@/components/DefaultLayout";
+import Loader from "@/components/Loader";
 
 const ServiceDetailsPage = () => {
   const { id } = useParams() as { id: string }; // ID du service actuel
@@ -36,10 +38,11 @@ const ServiceDetailsPage = () => {
     : [];
 
   if (!service) {
-    return <div>Loading...</div>; 
+    return <div><Loader/></div>; 
   }
 
  return (
+  <DefaultLayout>
     <div>
       <section>
         <div
@@ -132,6 +135,7 @@ const ServiceDetailsPage = () => {
        </div>
      </section>
    </div>
+   </DefaultLayout>
  );
 
 

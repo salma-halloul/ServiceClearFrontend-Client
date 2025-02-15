@@ -1,4 +1,5 @@
 "use client"
+import DefaultLayout from "@/components/DefaultLayout";
 import Services from "@/components/Services";
 import { useSearchParams } from "next/navigation";
 
@@ -8,6 +9,7 @@ const ServicesPage = () => {
     console.log(categoryId);
 
  return (
+  <DefaultLayout>
     <div>
       <section>
         <div
@@ -25,6 +27,7 @@ const ServicesPage = () => {
         </section>
         <Services selectedCategory={categoryId as string} />
         </div>
+        </DefaultLayout>
   );
 
 

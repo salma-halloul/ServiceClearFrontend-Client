@@ -10,6 +10,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import useRecaptcha from "@/hooks/useRecaptcha ";
+import DefaultLayout from "@/components/DefaultLayout";
 
 
 const ContactPage = () => {
@@ -85,6 +86,7 @@ const ContactPage = () => {
     
 
     return (
+        <DefaultLayout>
         <div>
             <section>
                 <div
@@ -229,6 +231,7 @@ const ContactPage = () => {
                     />
                 </div>
         </div>
+        </DefaultLayout>
         
     );
 

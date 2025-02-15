@@ -6,11 +6,10 @@ import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import QuoteProcess from "@/components/QuoteProcess";
 import Testimonials from "@/components/Testimonials";
-import {  useAppDispatch } from "@/redux/store";
-import { fetchServices } from "@/redux/actions/serviceAction";
 import Services from "@/components/Services";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import { motion } from "framer-motion";
+import DefaultLayout from "@/components/DefaultLayout";
 
 const slides = [
   {
@@ -65,6 +64,7 @@ export default function Home() {
   if (!mounted) return null;
 
   return (
+    <DefaultLayout>
     <main>
       {/* Hero Slider */}
       <div className="embla relative z-0" ref={emblaRef}>
@@ -326,5 +326,6 @@ export default function Home() {
         <Testimonials />
       </motion.div>
     </main>
+    </DefaultLayout>
   );
 }

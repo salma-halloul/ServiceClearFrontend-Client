@@ -1,5 +1,4 @@
 "use client"
-import { sendMessage } from "@/redux/actions/contactAction";
 import { fetchServicesByCategory } from "@/redux/actions/serviceAction";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
@@ -11,13 +10,14 @@ import Image from 'next/image';
 import { createQuote } from "@/redux/actions/quoteAction";
 import useRecaptcha from "@/hooks/useRecaptcha ";
 import ReCAPTCHA from "react-google-recaptcha";
+import DefaultLayout from "@/components/DefaultLayout";
 
 const QuotePage = () => {
     const dispatch = useDispatch<AppDispatch>();
     const categories = useSelector((state: RootState) => state.category.categories);
     const services = useSelector((state: RootState) => state.service.servicesByCategory);
     const [name, setName] = useState('');
-    const [phonenumber, setPhoneNumber] = useState(0);
+    const [phonenumber, setPhoneNumber] = useState(12345678);
     const [email, setEmail] = useState('');
     const [zip, setZip] = useState(0);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -103,6 +103,7 @@ const QuotePage = () => {
 
 
     return (
+        <DefaultLayout>
         <div>
             <section>
                 <div
@@ -182,6 +183,7 @@ const QuotePage = () => {
                                     <label className="text-gray-700 font-medium">Categories <span className="text-red-500">*</span></label>
                                     <Select
                                         isMulti
+                                          instanceId="categories-select"
                                         options={categories.map((cat) => ({
                                             value: cat.id,
                                             label: cat.name
@@ -200,6 +202,7 @@ const QuotePage = () => {
                                     <label className="text-gray-700 font-medium">Services <span className="text-red-500">*</span></label>
                                     <Select
                                         isMulti
+                                          instanceId="services-select"
                                         options={services.map((service) => ({
                                             value: service.id,
                                             label: service.name
@@ -278,6 +281,7 @@ const QuotePage = () => {
                 />
             </div>
         </div>
+        </DefaultLayout>
 
     );
 
