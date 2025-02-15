@@ -5,6 +5,7 @@ interface ServiceState {
   services: Service[];
   service: Service | null;
   servicesByCategory: Service[];
+  servicesByCategorySelected: Service[];
   loading: boolean;
   error: string | null;
   status: "idle" | "loading" | "failed";
@@ -13,6 +14,7 @@ interface ServiceState {
 const initialState: ServiceState = {
   services: [],
   servicesByCategory: [],
+  servicesByCategorySelected: [],
   service: null,
   loading: false,
   error: null,
@@ -22,7 +24,11 @@ const initialState: ServiceState = {
 const serviceSlice = createSlice({
   name: 'services',
   initialState,
-  reducers: {},
+  reducers: {
+    clearServices(state) {
+      state.servicesByCategorySelected = [];
+  },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchServiceById.pending, (state) => {
@@ -63,6 +69,7 @@ const serviceSlice = createSlice({
       .addCase(fetchServicesByCategory.fulfilled, (state, action) => {
         state.loading = false;
         state.servicesByCategory = action.payload;
+        state.servicesByCategorySelected = action.payload;
         state.status = "idle";
       })
       .addCase(fetchServicesByCategory.rejected, (state, action) => {
@@ -73,5 +80,7 @@ const serviceSlice = createSlice({
       
   },
 });
+
+export const { clearServices } = serviceSlice.actions;
 
 export default serviceSlice.reducer;

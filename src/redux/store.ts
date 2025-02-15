@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root", // Clé de stockage
   storage,     // Type de stockage (localStorage)
-  whitelist: [ "service"], // Persiste uniquement ces slices (optionnel)
+  whitelist: ["service"], // Persiste uniquement ces slices (optionnel)
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 // Configure le store

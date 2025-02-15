@@ -11,11 +11,12 @@ import { createQuote } from "@/redux/actions/quoteAction";
 import useRecaptcha from "@/hooks/useRecaptcha ";
 import ReCAPTCHA from "react-google-recaptcha";
 import DefaultLayout from "@/components/DefaultLayout";
+import { clearServices } from "@/redux/slices/serviceSlice";
 
 const QuotePage = () => {
     const dispatch = useDispatch<AppDispatch>();
     const categories = useSelector((state: RootState) => state.category.categories);
-    const services = useSelector((state: RootState) => state.service.servicesByCategory);
+    const services = useSelector((state: RootState) => state.service.servicesByCategorySelected || []);
     const [name, setName] = useState('');
     const [phonenumber, setPhoneNumber] = useState(12345678);
     const [email, setEmail] = useState('');
@@ -29,8 +30,13 @@ const QuotePage = () => {
     useEffect(() => {
         if (selectedCategories.length > 0) {
             dispatch(fetchServicesByCategory(selectedCategories));
+        } else {
+            dispatch(clearServices()); // Réinitialiser les services si aucune catégorie n'est sélectionnée
+            setSelectedServices([]); // Réinitialiser les services sélectionnés
         }
     }, [selectedCategories, dispatch]);
+   
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

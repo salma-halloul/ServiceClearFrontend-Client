@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { RootState, useAppDispatch } from "@/redux/store";
 import { useRouter } from "next/navigation";
+import { fetchAllCategories } from "@/redux/actions/categoryAction";
 
 type LinkKeys = 'HOME' | 'SERVICES' | 'ABOUT US' | 'CONTACT';
 
@@ -18,8 +19,17 @@ const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false); // État pour les catégories
   const { categories } = useSelector((state: RootState) => state.category);
+  const dispatch = useAppDispatch();
   const router = useRouter();
   
+    const hasFetched = useRef(false); 
+  
+    useEffect(() => {
+      if (!hasFetched.current) {
+        dispatch(fetchAllCategories());
+        hasFetched.current = true;
+      }
+    }, [dispatch]);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
