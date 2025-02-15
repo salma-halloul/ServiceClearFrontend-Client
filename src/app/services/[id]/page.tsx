@@ -11,7 +11,7 @@ import Image from "next/image";
 const ServiceDetailsPage = () => {
   const { id } = useParams() as { id: string }; // ID du service actuel
   const dispatch = useAppDispatch();
-  const { service } = useSelector((state: RootState) => state.service);
+  const { service, services } = useSelector((state: RootState) => state.service);
   const { categories } = useSelector((state: RootState) => state.category);
   const { servicesByCategory } = useSelector((state: RootState) => state.service);
   const hasFetchedService = useRef(false); // Gérer le fetch initial du service
@@ -27,14 +27,13 @@ const ServiceDetailsPage = () => {
   }, [dispatch, id]);
 
   const handleCategoryClick = (categoryId: string) => {
-    // Si la catégorie cliquée est déjà sélectionnée, on la désélectionne
-    if (selectedCategory === categoryId) {
-      setSelectedCategory(null);
-    } else {
-      setSelectedCategory(categoryId);
-      dispatch(fetchServicesByCategory([categoryId])); // Action pour récupérer les services de la catégorie
-    }
+    setSelectedCategory(selectedCategory === categoryId ? null : categoryId);
   };
+
+  // Filtrage des services côté front avec Redux
+  const filteredServices = selectedCategory
+    ? services.filter((s) => s.categories.some(category => category.id === selectedCategory))
+    : [];
 
   if (!service) {
     return <div>Loading...</div>; 
@@ -90,8 +89,8 @@ const ServiceDetailsPage = () => {
                       {/* Affichage des services si cette catégorie est sélectionnée */}
                       {selectedCategory === category.id && (
                         <ul className="mt-2 ml-4 border-l-2 border-tertiary pl-4">
-                          {servicesByCategory.length > 0 ? (
-                            servicesByCategory.map((service) => (
+                          {filteredServices.length > 0 ? (
+                            filteredServices.map((service) => (
                               <li key={service.id}>
                                 <a
                                   href={`/services/${service.id}`}

@@ -11,7 +11,7 @@ import { IoGridOutline } from "react-icons/io5";
 
 const Services = ({ selectedCategory }: { selectedCategory: string | undefined }) => {
   const { categories } = useSelector((state: RootState) => state.category);
-  const {services} = useSelector((state: RootState) => state.service);
+  const { services, loading } = useSelector((state: RootState) => state.service);
   const [localSelectedCategory, setLocalSelectedCategory] = useState<string | null>(
     selectedCategory || 'all' 
   );
@@ -25,10 +25,10 @@ const Services = ({ selectedCategory }: { selectedCategory: string | undefined }
     if (localSelectedCategory === 'all' || !localSelectedCategory) {
       dispatch(fetchServices());  // Fetch all services if "All" is selected or no category is selected
       hasFetched.current = true;
-    } else {
+    } //else {
       // Fetch services for the selected category
-      dispatch(fetchServicesByCategory([localSelectedCategory]));
-    }
+     // dispatch(fetchServicesByCategory([localSelectedCategory]));
+    //}
   }
   }, [localSelectedCategory, dispatch]);
 
@@ -83,29 +83,40 @@ const Services = ({ selectedCategory }: { selectedCategory: string | undefined }
             ))}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 mt-6 gap-8">
-            {filteredServices?.map((service, index) => (
-              <div
-                key={index}
-                onClick={() => handleServiceClick(service.id)}
-                className="bg-white rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105"
-              >
-                <Image
-                  src={service.images[0]}
-                  alt={service.name}
-                  width={400}
-                  height={300}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-secondary mb-2">{service.name}</h3>
-                  <p className="text-gray-600">{service.shortDescription}</p>
-                  <button className="mt-4 text-secondary hover:text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all">
-                    Learn More <ArrowRight size={20} className="text-primary" />
-                  </button>
-                </div>
-              </div>
-            ))}
+  {loading
+    ? Array.from({ length: 6 }).map((_, index) => (
+        <div
+          key={index}
+          className="bg-gray-200 animate-pulse w-full h-60 rounded-xl"
+        ></div>
+      ))
+    : filteredServices.map((service, index) => (
+        <div
+          key={index}
+          onClick={() => handleServiceClick(service.id)}
+          className="bg-white rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105"
+        >
+          <Image
+            src={service.images[0]}
+            alt={service.name}
+            width={400}
+            height={300}
+            className="w-full h-48 object-cover"
+          />
+          <div className="p-6">
+            <h3 className="text-xl font-semibold text-secondary mb-2">
+              {service.name}
+            </h3>
+            <p className="text-gray-600">{service.shortDescription}</p>
+            <button className="mt-4 text-secondary hover:text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all">
+              Learn More <ArrowRight size={20} className="text-primary" />
+            </button>
           </div>
+        </div>
+      ))}
+</div>
+
+          
         </div>
       </section>
     </div>
