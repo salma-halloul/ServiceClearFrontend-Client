@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ClientProvider from "@/redux/provider";
 import { ToastContainer } from "react-toastify";
+import { Analytics } from "@vercel/analytics/react"
+
 
 const outfit = Outfit({ subsets: ["latin"] });
 
@@ -24,6 +26,7 @@ export default function RootLayout({
         <ClientProvider>
             {children}
             <ToastContainer />
+            <Analytics/>
         </ClientProvider>
       </body>
     </html>
